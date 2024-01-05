@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .grid , .add{
+            display: grid;
+            grid-template-columns: 300px 150px 100px;
+            column-gap: 10px;
+            row-gap: 10px;
+            align-items: center;
+        }
+        .grid{
+            margin-bottom: 10px;
+            align-items: stretch;
+        }
+        #time{
+            cursor: pointer;
+        }
+        #submit{
+            color: white;
+            background-color: rgb(19, 194, 19);
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+        #delete{
+            color: white;
+            background-color: red;
+            border: none;
+            outline: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        input{
+            padding: 10px 5px;
+        }
+    </style>
+</head>
+<body>
+    
+    <p>TodoList</p>
+    <div class="grid">
+        <input placeholder="Add Todo" id="todo" onkeydown="enter(event)">
+        <input type="date"  id="time" onkeydown="enter(event)">
+        <button onclick="addtodo()" id="submit">Add</button>
+    </div>
+    <div class="add"></div>
+
+    <script>
+
+        function enter(event){
+            if(event.key === 'Enter'){
+                addtodo();
+            }
+        }
+        
+        const myArray =[{
+            item: 'Watch Netflix' ,
+            schedule: '2024-01-05'
+        }];
+    
+        renderTodo();
+        function renderTodo(){
+            let renderHTML = '';
+            myArray.forEach(function(todoObj, index){
+                const {item, schedule} = todoObj;
+                const html = `
+                <div>${item}</div>
+                <div>${schedule}</div>
+                    <button id="delete" onclick="myArray.splice(${index},1);
+                    renderTodo();"> 
+                        Delete
+                    </button>`;
+                renderHTML += html;
+
+                document.querySelector('.add').innerHTML=renderHTML;
+                
+            })
+            
+        }
+
+         
+        function addtodo(){
+        const pusharr = document.querySelector('#todo');
+        const time = document.querySelector('#time');
+        const item = pusharr.value;
+        const schedule = time.value;
+        
+
+        myArray.push({item,schedule});
+        pusharr.value = '';
+        time.value= '';
+        renderTodo();
+    }
+    </script>
+
+</body>
+</html>
